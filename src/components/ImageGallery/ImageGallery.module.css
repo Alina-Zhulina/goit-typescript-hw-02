@@ -1,0 +1,18 @@
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  row-gap: 24px;
+  margin-top: 80px;
+}
+
+.galleryItem {
+  max-width: calc((100% - 48px) / 3);
+}
+ul {
+  margin: 0 auto;
+  padding: 0;
+  list-style-type: none;
+  max-width: 100%;
+}

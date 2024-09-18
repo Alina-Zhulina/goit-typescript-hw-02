@@ -1,0 +1,25 @@
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.loadMoreBtn {
+  background-color: #40454f;
+  color: rgb(198, 174, 174);
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.loadMoreBtn:hover {
+  background-color: #3b5e84;
+}
+
+.loadMoreBtn:disabled {
+  background-color: #c0c0c0;
+  cursor: not-allowed;
+}
