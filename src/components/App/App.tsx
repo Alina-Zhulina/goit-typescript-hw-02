@@ -1,32 +1,39 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import SearchBar from "./components/SearchBar/SearchBar";
-import ImageGallery from "./components/ImageGallery/ImageGallery";
-import Loader from "./components/Loader/Loader";
-import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
-import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
-import ImageModal from "./components/ImageModal/ImageModal";
 import "./App.css";
+import SearchBar from "../SearchBar/SearchBar";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import ImageGallery from "../ImageGallery/ImageGallery";
+import Loader from "../Loader/Loader";
+import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
+import ImageModal from "../ImageModal/ImageModal";
+import { ApiResponse, FetchResponse, Image } from "./App.types";
 
-const getPhotos = async (query, page = 1) => {
+const getPhotos = async (
+  query: string,
+  page: number = 1
+): Promise<FetchResponse> => {
   const ACCESS_KEY = "Qj9TW4kBDIFCARi3Q-8HnUMK5qyrbemsk9V8q8X8rr0";
   const per_page = 20;
   try {
-    const response = await axios.get("https://api.unsplash.com/search/photos", {
-      params: {
-        query,
-        page,
-        per_page,
-        client_id: ACCESS_KEY,
-      },
-    });
-    const { results, total } = response.data;
+    const { data } = await axios.get<ApiResponse>(
+      "https://api.unsplash.com/search/photos",
+      {
+        params: {
+          query,
+          page,
+          per_page,
+          client_id: ACCESS_KEY,
+        },
+      }
+    );
+    const { results, total } = data;
     return {
       per_page,
       photos: results,
       total_results: total,
     };
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(
       error.response ? error.response.data.error : "An error occurred"
     );
@@ -34,17 +41,17 @@ const getPhotos = async (query, page = 1) => {
 };
 
 function App() {
-  const [inputValue, setInputValue] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [images, setImages] = useState([]);
-  const [loader, setLoader] = useState(false);
-  const [page, setPage] = useState(1);
-  const [isEmpty, setIsEmpty] = useState(false);
-  const [error, setError] = useState(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [shouldFetch, setShouldFetch] = useState(false);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [images, setImages] = useState<Image[]>([]);
+  const [loader, setLoader] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [isEmpty, setIsEmpty] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<Image | null>(null);
+  const [shouldFetch, setShouldFetch] = useState<boolean>(false);
 
   useEffect(() => {
     if (!searchQuery || !shouldFetch) return;
@@ -62,7 +69,7 @@ function App() {
           setImages((prevImages) => [...prevImages, ...photos]);
           setIsVisible(page < Math.ceil(total_results / per_page));
         }
-      } catch (error) {
+      } catch (error: any) {
         setError(error.message);
       } finally {
         setLoader(false);
@@ -73,7 +80,7 @@ function App() {
     fetchImages();
   }, [searchQuery, page, shouldFetch]);
 
-  const handleSearchQueryChange = () => {
+  const handleSearchQueryChange = (): void => {
     setSearchQuery(inputValue);
     setShouldFetch(true);
     setImages([]);
@@ -83,12 +90,12 @@ function App() {
     setInputValue("");
   };
 
-  const handleLoadMore = () => {
+  const handleLoadMore = (): void => {
     setPage((prevPage) => prevPage + 1);
     setShouldFetch(true);
   };
 
-  const openModal = (image) => {
+  const openModal = (image: Image): void => {
     setSelectedImage(image);
     setModalIsOpen(true);
   };

@@ -3,11 +3,13 @@ import globals from "globals";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
+import typescript from "@typescript-eslint/parser";
 
 export default [
   {
-    files: ["**/*.{js,jsx}"],
+    files: ["**/*.{js,jsx,ts,tsx}"],
     ignores: ["dist"],
+    parser: typescript,
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -22,7 +24,9 @@ export default [
       react,
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
+      "@typescript-eslint": require("@typescript-eslint/eslint-plugin"),
     },
+
     rules: {
       ...js.configs.recommended.rules,
       ...react.configs.recommended.rules,

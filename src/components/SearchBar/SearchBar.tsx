@@ -1,9 +1,15 @@
 import { FaSearch } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
 import css from "./SearchBar.module.css";
+import { FormEvent } from "react";
+type SearchBarProps = {
+  query: string;
+  onChange: (value: string) => void;
+  onSubmit: () => void;
+};
 
-const SearchBar = ({ query, onChange, onSubmit }) => {
-  const handleSubmit = (event) => {
+const SearchBar = ({ query, onChange, onSubmit }: SearchBarProps) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (query.trim() === "") {
       toast.error("Please enter a search query.");

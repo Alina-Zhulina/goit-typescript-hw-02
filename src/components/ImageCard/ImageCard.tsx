@@ -1,6 +1,10 @@
+import { Image } from "../App/App.types";
 import css from "./ImageCard.module.css";
-
-const ImageCard = ({ image, onClick }) => (
+type ImageCardProps = {
+  image: Image;
+  onClick: () => void;
+};
+const ImageCard = ({ image, onClick }: ImageCardProps) => (
   <div className={css.card} onClick={onClick}>
     <img
       src={image.urls.small}
